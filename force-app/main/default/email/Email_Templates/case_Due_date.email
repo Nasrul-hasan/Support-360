@@ -1,0 +1,17 @@
+Hello {!Case.OwnerFullName},
+
+Just a heads-up that the due date for Case #{!Case.CaseNumber} - "{!Case.Subject}" is approaching and is scheduled for tomorrow, {!Case.Due_Date__c}.
+
+Please review the case to ensure all necessary actions are completed before the deadline. If you need any assistance or additional resources, please reach out.
+
+Thank you for your attention to this matter.
+
+Best regards,
+[Your Company Support Team]
+
+---
+Case Details:
+- Case ID: {!Case.CaseNumber}
+- Subject: {!Case.Subject}
+- Status: {!Case.Status}
+- Due Date: {!Case.Due_Date__c}

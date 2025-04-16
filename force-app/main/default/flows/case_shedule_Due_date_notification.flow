@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_owner_to_eamil</name>
+        <label>Send owner to eamil</label>
+        <locationX>50</locationX>
+        <locationY>360</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$Record.Owner:User.Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>Email_Subject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Emailbody</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <name>Check_entry_condition</name>
+        <label>Check entry condition</label>
+        <locationX>182</locationX>
+        <locationY>252</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Condition_meet_successfully</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Done</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.support36zero__Due_Date__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>tomorrow</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_owner_to_eamil</targetReference>
+            </connector>
+            <label>Condition meet successfully</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>tomorrow</name>
+        <dataType>Date</dataType>
+        <expression>TODAY()+1</expression>
+    </formulas>
+    <interviewLabel>[case(shedule)]Due date notification {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>[case(shedule)] Due date notification</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_entry_condition</targetReference>
+        </connector>
+        <object>Case</object>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startDate>2025-02-03</startDate>
+            <startTime>17:30:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>Email_Subject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&quot;Reminder: Case &quot; &amp; {!$Record.CaseNumber} &amp; &quot; Due Tomorrow&quot;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>Emailbody</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&quot;Hello &quot; &amp; {!$Record.Owner:User.FirstName} &amp; &quot;,\n\n&quot; &amp;
+&quot;This is a reminder that Case &quot; &amp; {!$Record.CaseNumber} &amp; &quot; is due tomorrow (&quot; &amp; TEXT({!$Record.Due_Date__c}) &amp; &quot;).\n\n&quot; &amp;
+&quot;Please ensure the Case is resolved before the due date.\n\n&quot; &amp;
+&quot;Link to Case: https://yourdomain.lightning.force.com/lightning/r/Case/&quot; &amp; {!$Record.Id} &amp; &quot;/view&quot;</text>
+    </textTemplates>
+</Flow>

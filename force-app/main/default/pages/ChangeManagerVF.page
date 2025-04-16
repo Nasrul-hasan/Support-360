@@ -1,0 +1,72 @@
+<apex:page standardController="Project__c" recordSetVar="projects" extensions="ChangeManagerController" showHeader="false">
+    <script>
+        window.onload = function () {
+            let messagesDiv = document.getElementById("messages");
+            let errorMessages = messagesDiv ? messagesDiv.innerText.trim() : '';
+
+            // If there's an error message, stay on the list view page instead of opening the modal
+            if (errorMessages.includes("No projects selected")) {
+                alert(errorMessages);
+                window.parent.location.href = "/lightning/o/Project__c/list";
+            }
+        };
+
+        function closeAndRedirect() {
+            window.parent.location.href = "/lightning/o/Project__c/list";
+        }
+
+        function showToast(message) {
+            let toast = document.getElementById("toastMessage");
+            let toastText = document.getElementById("toastText");
+
+            if (!toast || !toastText) {
+                console.error("Toast element is missing.");
+                return;
+            }
+
+            toastText.innerText = message;
+            toast.style.display = "block";
+
+            setTimeout(() => {
+                toast.style.display = "none";
+                closeAndRedirect();
+            }, 2000);
+        }
+    </script>
+
+    <apex:form id="form">
+        <apex:pageBlock title="Change Project Manager">
+            <apex:pageMessages id="messages"/>
+
+            <apex:pageBlockSection title="Selected Projects" columns="1">
+                <apex:repeat value="{!selectedProjects}" var="project">
+                    <apex:outputText value="{!project.Name}" />
+                    <br/>
+                </apex:repeat>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Select New Manager">
+                <apex:selectList value="{!selectedManagerId}" size="1">
+                    <apex:selectOptions value="{!managerOptions}" />
+                </apex:selectList>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!updateManager}" onclick="showToast('Project managers updated successfully...');" rerender="messages"/>
+                <apex:commandButton value="Cancel" onclick="closeAndRedirect();" />
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+
+    <!-- Toast Notification -->
+    <div id="toastMessage" class="slds-notify_container" style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+        <div class="slds-notify slds-notify_toast slds-theme_success" role="status">
+            <span class="slds-assistive-text">Success</span>
+            <div class="slds-notify__content">
+                <h2 class="slds-text-heading_small" id="toastText"></h2>
+            </div>
+        </div>
+    </div>
+
+    
+</apex:page>

@@ -1,0 +1,16 @@
+Hello {!Case.OwnerFullName},
+
+Your request for Case #{!Case.CaseNumber} has been approved. Here are the details of the approval:
+
+- **Case Number:** {!Case.CaseNumber}
+- **Approved By:** {!ApprovalRequest.Process_Approver__r.Name} 
+- **Priority:** {!Case.Priority}
+- **Status:** Approved
+- **Resolution:** {!Case.Resolution__c}
+
+
+For more details, view the case here:
+{!Case.Link}
+
+Thank you,
+Support 360

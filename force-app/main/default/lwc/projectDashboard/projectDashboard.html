@@ -1,0 +1,45 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 02-24-2025
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card title="Project Dashboard" icon-name="standard:dashboard">
+        <div class="slds-m-around_medium">
+            <lightning-combobox
+                name="projectFilter"
+                label="Select Project"
+                value={selectedProject}
+                options={projectOptions}
+                onchange={handleProjectChange}
+                placeholder="Choose a project"
+            ></lightning-combobox>
+        </div>
+    </lightning-card>
+
+    <template if:true={selectedProject}>
+        <lightning-card title="Case Status Overview">
+            <template if:true={caseStatusData.length}>
+                <canvas class="caseStatusChart"></canvas>
+            </template>
+            <template if:false={caseStatusData.length}>
+                <p class="slds-text-color_error">No case data available.</p>
+            </template>
+        </lightning-card>
+
+        <lightning-card title="Resource Utilization">
+            <template if:true={resourceUtilizationData.length}>
+                <canvas class="resourceUtilizationChart"></canvas>
+            </template>
+            <template if:false={resourceUtilizationData.length}>
+                <p class="slds-text-color_error">No resource utilization data available.</p>
+            </template>
+        </lightning-card>
+
+        <lightning-card title="Project Progress">
+            <canvas class="progressChart"></canvas>
+        </lightning-card>
+    </template>
+</template>

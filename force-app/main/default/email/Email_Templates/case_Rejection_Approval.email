@@ -1,0 +1,16 @@
+Hello {!Case.OwnerFullName},
+
+We regret to inform you that your request for Case #{!Case.CaseNumber} has not been approved. Here are the details:
+
+- **Case Number:** {!Case.CaseNumber}
+- **Rejected By:** {!ApprovalRequest.Process_Approver__r.Name}  (Note: Custom field or similar to display rejector's name)
+- **Priority:** {!Case.Priority}
+- **Status:** Rejected
+- **Reason for Rejection:** {!ApprovalRequest.Comments}  (Note: Where approvers can add comments)
+
+You may view the case and submit a revised request if necessary here:
+
+{!Case.Link}
+
+Thank you,
+Support 360

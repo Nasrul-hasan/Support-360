@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AnimationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <animationFrequency>always</animationFrequency>
+    <developerName>Support_Status_Path</developerName>
+    <isActive>true</isActive>
+    <masterLabel>Support Status Path</masterLabel>
+    <recordTypeContext>Custom</recordTypeContext>
+    <recordTypeName>Support_Request</recordTypeName>
+    <sobjectType>Case</sobjectType>
+    <targetField>Status</targetField>
+    <targetFieldChangeToValues>Done</targetFieldChangeToValues>
+</AnimationRule>

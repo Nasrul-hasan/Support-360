@@ -1,0 +1,10 @@
+Hello {!Recipient.Name},
+
+You have been assigned as the new manager for the project: {!Project__c.Name}.
+
+Click here to view the project: {!Project__c.Link}
+
+Please review the project details and proceed with your responsibilities.
+
+Thank you.
+Support 360
